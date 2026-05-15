@@ -32,9 +32,6 @@ export default function Footer() {
   const legalLinks = [
     { href: '/terms', label: 'Terms of Service' },
     { href: '/privacy', label: 'Privacy Policy' },
-    { href: '/cookie-policy', label: 'Cookie Policy' },
-    { href: '/regulatory', label: 'Regulatory Disclosure' },
-    { href: '/compliance', label: 'Compliance' },
   ]
 
   // Product links
@@ -42,8 +39,6 @@ export default function Footer() {
     { href: '/wallet', label: 'Digital Wallet' },
     { href: '/virtual-card', label: 'Virtual Cards' },
     { href: '/buy-balance', label: 'Add Funds' },
-    { href: '/security', label: 'Security' },
-    { href: '/methodology', label: 'Methodology' },
   ]
 
   const scrollToTop = () => {
@@ -204,8 +199,6 @@ export default function Footer() {
             © {currentYear} {companyInfo.name}. All rights reserved.
           </div>
           <div className={styles.bottomLinks}>
-            <Link href="/sitemap" className={styles.bottomLink}>Sitemap</Link>
-            <Link href="/accessibility" className={styles.bottomLink}>Accessibility</Link>
             <button onClick={scrollToTop} className={styles.backToTop}>
               <span className="material-symbols-outlined">arrow_upward</span>
               Back to Top
