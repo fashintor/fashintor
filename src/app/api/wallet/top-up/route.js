@@ -38,7 +38,7 @@ export async function POST(request) {
       return NextResponse.json(
         {
           error:
-            'Add an Aura virtual card first. Wallet top-ups are enabled once you have at least one active virtual card.',
+            'Add an Aura card first. Open My Cards and use Get a Card before topping up your wallet.',
         },
         { status: 400 }
       );

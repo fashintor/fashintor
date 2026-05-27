@@ -141,7 +141,7 @@ export default function Register() {
         const goToWallet = isTestMode || isEmailVerified
         
         if (goToWallet) {
-          window.location.href = '/virtual-card/create'
+          window.location.href = '/virtual-card'
         } else {
           const emailParam = encodeURIComponent(formData.email || data.user?.email || '')
           window.location.href = `/verify-email?email=${emailParam}`

@@ -37,7 +37,7 @@ export default function Footer() {
   // Product links
   const productLinks = [
     { href: '/wallet', label: 'Digital Wallet' },
-    { href: '/virtual-card', label: 'Virtual Cards' },
+    { href: '/virtual-card', label: 'My Cards' },
     { href: '/buy-balance', label: 'Add Funds' },
   ]
 

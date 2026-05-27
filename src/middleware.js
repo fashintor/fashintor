@@ -47,6 +47,7 @@ function decodeJwtPayload(token) {
 
 // Protected routes that require authentication
 const protectedRoutes = [
+  '/dashboard',
   '/wallet',
   '/virtual-card',
   '/buy-balance',
@@ -104,6 +105,7 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
+    '/dashboard/:path*',
     '/wallet/:path*',
     '/virtual-card/:path*',
     '/buy-balance/:path*',

@@ -83,7 +83,7 @@ function VerifyEmailContent() {
       const isVerified = localStorage.getItem('emailVerified') === 'true'
       
       if (isVerified) {
-        window.location.href = '/virtual-card/create'
+        window.location.href = '/virtual-card'
       } else {
         // For demo purposes, show verification needed
         alert('Please verify your email first by clicking the link sent to your inbox')
@@ -103,7 +103,7 @@ function VerifyEmailContent() {
       localStorage.setItem('emailVerified', 'true')
       // Show success message and redirect after 2 seconds
       setTimeout(() => {
-        window.location.href = '/virtual-card/create'
+        window.location.href = '/virtual-card'
       }, 2000)
     }
   }, [])

@@ -1,6 +1,5 @@
 import { Manrope, Noto_Serif } from 'next/font/google'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import AppShell from '@/components/layout/AppShell'
 import './globals.scss'
 import { ReactNode } from 'react'
 
@@ -35,11 +34,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${manrope.variable} ${notoSerif.variable}`}>
-        <Header />
-        <main style={{ paddingTop: '80px', minHeight: '100vh' }}>
-          {children}
-        </main>
-        <Footer />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   )

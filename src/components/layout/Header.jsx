@@ -91,7 +91,7 @@ export default function Header() {
   }
 
   // Navigation items
-  const mainNavItems = [
+  const navItems = [
     { href: '/', label: 'Home' },
     { href: '/how-it-works', label: 'How It Works' },
     { href: '/pricing', label: 'Pricing' },
@@ -99,15 +99,6 @@ export default function Header() {
     { href: '/about', label: 'About' },
     { href: '/contact', label: 'Contact' },
   ]
-
-  const authNavItems = isLoggedIn ? [
-    { href: '/wallet', label: 'Wallet' },
-    { href: '/virtual-card', label: 'Virtual Card' },
-    { href: '/buy-balance', label: 'Add Funds' },
-  ] : []
-
-  const allNavItems = [...authNavItems, ...mainNavItems]
-  const navItems = authResolved ? allNavItems : mainNavItems
 
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
@@ -140,13 +131,12 @@ export default function Header() {
                 <span className="material-symbols-outlined">shopping_bag</span>
               </button>
               <div className={styles.userMenu}>
-                <button type="button" className={styles.userBtn}>
+                <Link href="/dashboard/profile" className={styles.userBtn}>
                   <span className="material-symbols-outlined">account_circle</span>
                   <span className={styles.userName}>{userName || 'Account'}</span>
-                </button>
+                </Link>
                 <div className={styles.dropdown}>
-                  <Link href="/profile">Profile</Link>
-                  <Link href="/settings">Settings</Link>
+                  <Link href="/dashboard/profile">Profile</Link>
                   <button type="button" onClick={handleLogout}>Logout</button>
                 </div>
               </div>
