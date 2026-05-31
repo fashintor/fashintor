@@ -96,8 +96,8 @@ export default function Home() {
       answer: "No. Premium members can generate an unlimited number of single-use or merchant-specific cards as needed for their transactions."
     },
     {
-      question: "What boutiques support Aura?",
-      answer: "Aura cards are issued via Visa and Mastercard networks, meaning they are accepted at virtually every luxury retailer and boutique globally, both online and in-store."
+      question: `What boutiques support ${(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]}?`,
+      answer: `${(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} cards are issued via Visa and Mastercard networks, meaning they are accepted at virtually every luxury retailer and boutique globally, both online and in-store.`
     },
     {
       question: "How secure is my data?",
@@ -215,14 +215,14 @@ export default function Home() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2>Redefining Standard</h2>
-            <p>Why modern collectors choose Aura over traditional banking.</p>
+            <p>Why modern collectors choose {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} over traditional banking.</p>
           </div>
           <div className={styles.tableWrapper}>
             <table className={styles.compTable}>
               <thead>
                 <tr>
                   <th>Capability</th>
-                  <th>Aura Premium</th>
+                  <th>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} Premium</th>
                   <th>Standard Bank</th>
                 </tr>
               </thead>

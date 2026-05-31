@@ -195,7 +195,7 @@ export default function VirtualCard() {
         <div>
           <h1 className={styles.pageTitle}>My Cards</h1>
           <p className={styles.pageSubtitle}>
-            View and manage your Aura cards. Use Get a Card to issue a new one.
+            View and manage your {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} cards. Use Get a Card to issue a new one.
           </p>
         </div>
         {cardsFetched && (
@@ -238,8 +238,8 @@ export default function VirtualCard() {
               <div className={`${styles.virtualCard} ${!cardDetails.isActive ? styles.frozenCard : ''}`}>
                 <div className={styles.cardInnerGlow}></div>
 
-                <div className={styles.cardHeader}>
-                  <span className={styles.cardLogo}>Aura</span>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]}</span>
                   <div className={styles.cardStatus}>
                     <span className={`${styles.statusDot} ${cardDetails.isActive && !isFrozen ? styles.active : styles.inactive}`}></span>
                     <span className={styles.statusText}>

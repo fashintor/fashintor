@@ -15,8 +15,9 @@ const notoSerif = Noto_Serif({
   variable: '--font-noto-serif',
 })
 
+const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA'
 export const metadata = {
-  title: 'AURA | Private Wellness & Global Luxury Fintech',
+  title: `${companyName} | Private Wellness & Global Luxury Fintech`,
   description: 'Secure virtual cards for luxury shopping worldwide',
 }
 

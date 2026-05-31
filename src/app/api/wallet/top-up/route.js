@@ -35,10 +35,10 @@ export async function POST(request) {
 
     const hasVirtualCard = await Card.exists({ userId: decoded.userId });
     if (!hasVirtualCard) {
+      const shortName = (process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]
       return NextResponse.json(
         {
-          error:
-            'Add an Aura card first. Open My Cards and use Get a Card before topping up your wallet.',
+          error: `Add a ${shortName} card first. Open My Cards and use Get a Card before topping up your wallet.`,
         },
         { status: 400 }
       );

@@ -77,7 +77,7 @@ export default function About() {
         <section className={`${styles.introSection} ${styles.revealUp}`}>
           <div className={styles.introContent}>
             <p className={styles.introText}>
-              Aura exists at the intersection of exclusive access and absolute precision. 
+              {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura')} exists at the intersection of exclusive access and absolute precision. 
               We are the invisible bridge connecting discerning individuals with the world's 
               most coveted luxury items, unbound by geographical limitations.
             </p>
@@ -113,7 +113,7 @@ export default function About() {
         <section className={styles.advantagesSection}>
           <div className={styles.advantagesContainer}>
             <div className={styles.advantagesHeader}>
-              <h2 className={styles.advantagesTitle}>The Aura Advantage</h2>
+              <h2 className={styles.advantagesTitle}>The {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura')} Advantage</h2>
             </div>
             
             <div className={styles.advantagesGrid}>
@@ -165,8 +165,8 @@ export default function About() {
               <div className={styles.detailsList}>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>Registration</span>
-                  <p className={styles.detailValue}>Aura Luxury Fintech Ltd.</p>
-                  <p className={styles.detailSubtext}>Company No. 12345678 (England & Wales)</p>
+                  <p className={styles.detailValue}>{process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura Luxury Fintech Ltd.'}</p>
+                  <p className={styles.detailSubtext}>Company No. {process.env.NEXT_PUBLIC_COMPANY_NUMBER || '12345678'} (England & Wales)</p>
                 </div>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>VAT Number</span>

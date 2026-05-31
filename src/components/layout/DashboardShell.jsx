@@ -27,7 +27,7 @@ export default function DashboardShell({ children }) {
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <Link href={dashboardRoutes.wallet} className={styles.brand}>
-          AURA
+          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}
         </Link>
         <p className={styles.brandHint}>Dashboard</p>
 

@@ -6,6 +6,8 @@ import styles from './page.module.scss'
 export default function PrivacyPolicy() {
   const [activeSection, setActiveSection] = useState('introduction')
   const [lastUpdated] = useState('OCT 2023')
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura'
+  const companyShort = companyName.split(' ')[0]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,7 +58,7 @@ export default function PrivacyPolicy() {
         <header className={styles.hero}>
           <h1 className={styles.heroTitle}>Privacy Policy</h1>
           <p className={styles.heroSubtitle}>
-            Your privacy and data protection are central to the Aura experience. 
+            Your privacy and data protection are central to the {companyShort} experience. 
             We treat your personal information with the same rigor and security as your financial assets.
           </p>
           <p className={styles.lastUpdated}>LAST UPDATED: {lastUpdated}</p>
@@ -95,12 +97,12 @@ export default function PrivacyPolicy() {
               <h2 className={styles.sectionTitle}>1. Introduction</h2>
               <div className={styles.sectionContent}>
                 <p>
-                  Welcome to Aura. This Privacy Policy outlines our uncompromising approach to safeguarding 
+                  Welcome to {companyShort}. This Privacy Policy outlines our uncompromising approach to safeguarding 
                   your personal and financial data. We believe privacy is a fundamental right, especially 
                   when navigating high-net-worth ecosystems.
                 </p>
                 <p>
-                  By utilizing the Aura platform, Concierge services, or Vault features, you entrust us 
+                  By utilizing the {companyShort} platform, Concierge services, or Vault features, you entrust us 
                   with critical information. This document details how we honor that trust.
                 </p>
               </div>
@@ -122,7 +124,7 @@ export default function PrivacyPolicy() {
                   </li>
                   <li>
                     <strong>Financial Data</strong>
-                    <span>Bank account details, transaction history within the Aura platform, portfolio valuations, and funding sources necessary to execute trades and manage your wealth.</span>
+                    <span>Bank account details, transaction history within the {companyShort} platform, portfolio valuations, and funding sources necessary to execute trades and manage your wealth.</span>
                   </li>
                   <li>
                     <strong>Technical & Usage Data</strong>
@@ -175,7 +177,7 @@ export default function PrivacyPolicy() {
                   We employ military-grade encryption for data both at rest and in transit.
                 </p>
                 <p>
-                  Aura maintains strict compliance with international security standards, 
+                  {companyShort} maintains strict compliance with international security standards, 
                   including full <strong>PCI DSS compliance</strong> for all payment processing 
                   and cardholder data environments.
                 </p>

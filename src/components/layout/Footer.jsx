@@ -8,14 +8,14 @@ export default function Footer() {
   const pathname = usePathname()
   const currentYear = new Date().getFullYear()
 
-  // Company information
+  // Company information (uses NEXT_PUBLIC_* env vars when available)
   const companyInfo = {
-    name: 'AURA FINANCE LTD',
-    registration: '12345678',
-    vat: 'GB123456789',
-    address: '25 Berkeley Square, Mayfair, London, W1J 6HN, United Kingdom',
-    email: 'contact@aura.finance',
-    phone: '+44 (0) 20 7123 4567',
+    name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA FINANCE LTD',
+    registration: process.env.NEXT_PUBLIC_COMPANY_NUMBER || '12345678',
+    vat: process.env.NEXT_PUBLIC_COMPANY_VAT || 'GB123456789',
+    address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS || '25 Berkeley Square, Mayfair, London, W1J 6HN, United Kingdom',
+    email: process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'contact@aura.finance',
+    phone: process.env.NEXT_PUBLIC_COMPANY_PHONE || '+44 (0) 20 7123 4567',
   }
 
   // Main navigation links
@@ -52,7 +52,7 @@ export default function Footer() {
         <div className={styles.grid}>
           {/* Brand Column */}
           <div className={styles.brandColumn}>
-            <div className={styles.logo}>AURA</div>
+            <div className={styles.logo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}</div>
             <p className={styles.tagline}>
               Global luxury financial ecosystem for discerning individuals.
             </p>

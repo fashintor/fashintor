@@ -79,8 +79,9 @@ function OrderConfirmationContent() {
       console.log('Downloading receipt...', transactionData)
       
       // Create a simple text receipt for demo
+      const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA FINANCE'
       const receipt = `
-        AURA FINANCE - TRANSACTION RECEIPT
+        ${companyName.toUpperCase()} - TRANSACTION RECEIPT
         =================================
         Transaction ID: ${transactionData.transactionId}
         Date: ${transactionData.date}
@@ -90,7 +91,7 @@ function OrderConfirmationContent() {
         Status: ${transactionData.status}
         New Balance: €${transactionData.newBalance}
         =================================
-        Thank you for using Aura Finance
+        Thank you for using ${companyName}
       `
       
       // Create blob and download

@@ -48,11 +48,15 @@ async function trySend({ from, to, subject, html }) {
 
 // generic HTML templates
 function verificationHtml(verificationUrl, name) {
-  return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.button{background:#000;color:#fff;padding:16px 32px;border-radius:4px;text-decoration:none;display:inline-block;margin:24px 0}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">AURA</div><h2>Welcome, ${name}!</h2><p>Please verify your email address to complete your registration.</p><a href="${verificationUrl}" class="button">Verify Email</a><p>Or copy this link: ${verificationUrl}</p><div class="footer"><p>This link expires in 24 hours.</p><p>© 2024 AURA FINANCE. All rights reserved.</p></div></div></body></html>`;
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA FINANCE';
+  const logoText = (process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0];
+  return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.button{background:#000;color:#fff;padding:16px 32px;border-radius:4px;text-decoration:none;display:inline-block;margin:24px 0}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">${logoText}</div><h2>Welcome, ${name}!</h2><p>Please verify your email address to complete your registration.</p><a href="${verificationUrl}" class="button">Verify Email</a><p>Or copy this link: ${verificationUrl}</p><div class="footer"><p>This link expires in 24 hours.</p><p>© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p></div></div></body></html>`;
 }
 
 function resetHtml(resetUrl) {
-  return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.button{background:#000;color:#fff;padding:16px 32px;border-radius:4px;text-decoration:none;display:inline-block;margin:24px 0}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">AURA</div><h2>Reset Your Password</h2><p>Click the button below to reset your password.</p><a href="${resetUrl}" class="button">Reset Password</a><p>If you didn't request this, please ignore this email.</p><div class="footer"><p>This link expires in 1 hour.</p><p>© 2024 AURA FINANCE. All rights reserved.</p></div></div></body></html>`;
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA FINANCE';
+  const logoText = (process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0];
+  return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.button{background:#000;color:#fff;padding:16px 32px;border-radius:4px;text-decoration:none;display:inline-block;margin:24px 0}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">${logoText}</div><h2>Reset Your Password</h2><p>Click the button below to reset your password.</p><a href="${resetUrl}" class="button">Reset Password</a><p>If you didn't request this, please ignore this email.</p><div class="footer"><p>This link expires in 1 hour.</p><p>© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p></div></div></body></html>`;
 }
 
 export async function sendVerificationEmail(email, token, name) {
@@ -61,7 +65,8 @@ export async function sendVerificationEmail(email, token, name) {
   const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
   const html = verificationHtml(verificationUrl, name);
 
-  const result = await trySend({ from: process.env.EMAIL_FROM, to: email, subject: 'Verify Your Email - AURA Finance', html });
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA Finance';
+  const result = await trySend({ from: process.env.EMAIL_FROM, to: email, subject: `Verify Your Email - ${companyName}`, html });
   return result;
 }
 
@@ -69,6 +74,7 @@ export async function sendPasswordResetEmail(email, token) {
   const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/reset-password?token=${token}`;
   const html = resetHtml(resetUrl);
 
-  const result = await trySend({ from: process.env.EMAIL_FROM, to: email, subject: 'Reset Your Password - AURA Finance', html });
+  const companyName2 = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA Finance';
+  const result = await trySend({ from: process.env.EMAIL_FROM, to: email, subject: `Reset Your Password - ${companyName2}`, html });
   return result;
 }

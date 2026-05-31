@@ -84,7 +84,7 @@ export default function Features() {
               {/* Virtual Card Overlay */}
               <div className={styles.cardOverlay}>
                 <div className={styles.cardHeader}>
-                  <span className={styles.cardLogo}>Aura</span>
+                  <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]}</span>
                   <span className="material-symbols-outlined">contactless</span>
                 </div>
                 <div className={styles.cardNumber}>**** **** **** 8429</div>
@@ -102,7 +102,7 @@ export default function Features() {
           <span className={styles.overviewLabel}>The Bridge</span>
           <h2 className={styles.overviewTitle}>Connecting you to global luxury.</h2>
           <p className={styles.overviewText}>
-            Aura provides a seamless financial bridge between discerning fashion shoppers 
+            {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura')} provides a seamless financial bridge between discerning fashion shoppers 
             and the world's most exclusive luxury platforms. Bypass traditional banking 
             friction and shop globally with ease.
           </p>

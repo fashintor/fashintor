@@ -16,22 +16,24 @@ export default function FAQ() {
     { id: 'cards', name: 'Cards', icon: 'credit_card' },
     { id: 'security', name: 'Security', icon: 'shield' }
   ]
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura'
+  const companyShort = companyName.split(' ')[0]
 
   const faqs = {
     general: [
       {
         id: 'what-is-aura',
-        question: 'What is Aura?',
-        answer: 'Aura is a luxury financial ecosystem designed to seamlessly integrate high-end lifestyle management with robust wealth tools. We offer bespoke virtual cards, concierge services, and secure asset vaults.'
+        question: `What is ${companyShort}?`,
+        answer: `${companyName} is a luxury financial ecosystem designed to seamlessly integrate high-end lifestyle management with robust wealth tools. We offer bespoke virtual cards, concierge services, and secure asset vaults.`
       },
       {
         id: 'where-use-card',
         question: 'Where can I use my card?',
-        answer: 'Your Aura virtual card can be used at any merchant that accepts Visa or Mastercard, both online and in-store, globally. There are no geographic restrictions for premium members.'
+        answer: `Your ${companyShort} virtual card can be used at any merchant that accepts Visa or Mastercard, both online and in-store, globally. There are no geographic restrictions for premium members.`
       },
       {
         id: 'membership-benefits',
-        question: 'What are the benefits of Aura membership?',
+        question: `What are the benefits of ${companyShort} membership?`,
         answer: 'Members enjoy unlimited virtual card generation, institutional-grade exchange rates, a dedicated personal concierge, and exclusive access to luxury brand partnerships.'
       }
     ],
@@ -138,10 +140,10 @@ export default function FAQ() {
       title: 'Virtual Cards',
       description: 'Learn how to instantly generate and manage your disposable and permanent virtual cards.'
     },
-    {
+      {
       icon: 'account_balance_wallet',
       title: 'Funding Options',
-      description: 'Discover the methods available for adding liquidity to your Aura Vault securely.'
+      description: `Discover the methods available for adding liquidity to your ${companyShort} Vault securely.`
     },
     {
       icon: 'shield_lock',

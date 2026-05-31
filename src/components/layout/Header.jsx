@@ -104,7 +104,7 @@ export default function Header() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
         <Link href={authResolved && isLoggedIn ? '/wallet' : '/'} className={styles.logo}>
-          AURA
+          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}
         </Link>
 
         <nav className={styles.desktopNav}>
