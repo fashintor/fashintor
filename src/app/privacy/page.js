@@ -6,7 +6,7 @@ import styles from './page.module.scss'
 export default function PrivacyPolicy() {
   const [activeSection, setActiveSection] = useState('introduction')
   const [lastUpdated] = useState('OCT 2023')
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura'
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor'
   const companyShort = companyName.split(' ')[0]
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function PrivacyPolicy() {
   ]
 
   const handleEmailPrivacy = () => {
-    window.location.href = 'mailto:privacy@aura.finance'
+    window.location.href = `mailto:${process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'info@fashintor.com'}`
   }
 
   return (

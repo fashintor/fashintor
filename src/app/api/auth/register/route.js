@@ -3,7 +3,7 @@ import { connectToDatabase } from '@/lib/db';
 import User from '@/models/User';
 import Wallet from '@/models/Wallet';
 import { generateToken, generateRandomToken, formatUserResponse } from '@/lib/auth';
-import { sendVerificationEmail } from '@/lib/email';
+import { sendVerificationEmail, formatEmailError } from '@/lib/email';
 import { config } from '@/config';
 
 export async function POST(request) {
@@ -63,7 +63,7 @@ export async function POST(request) {
     // Create wallet for user
     await Wallet.create({
       userId: user._id,
-      balances: { EUR: 0, USD: 0, GBP: 0, JPY: 0, CHF: 0 },
+      balances: { EUR: 0, USD: 0, GBP: 0 },
     });
     
     console.log('✅ Wallet created');
@@ -75,6 +75,12 @@ export async function POST(request) {
         console.log('📧 Verification email sent');
       } catch (emailError) {
         console.error('Failed to send verification email:', emailError);
+        await User.findByIdAndDelete(user._id);
+        await Wallet.deleteOne({ userId: user._id });
+        return NextResponse.json(
+          { error: formatEmailError(emailError) },
+          { status: 400 }
+        );
       }
     } else {
       console.log('🧪 TEST MODE: Skipping verification email');
@@ -88,7 +94,7 @@ export async function POST(request) {
       success: true,
       user: formatUserResponse(user),
       token,
-      testMode: config.testMode, // ← Додаємо цей прапорець для фронтенду
+      testMode: config.testMode,
     }, { status: 201 });
     
     response.cookies.set('auth-token', token, {

@@ -1,5 +1,8 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
+import PaymentLogos from '@/components/ui/PaymentLogos'
+import { dashboardRoutes } from '@/lib/routes'
 import styles from './page.module.scss'
 
 export default function HowItWorks() {
@@ -72,7 +75,7 @@ export default function HowItWorks() {
                 and manage multiple currencies in a serene, uncluttered environment designed 
                 for high-value oversight.
               </p>
-              <button className={styles.primaryBtn}>View Wallet</button>
+              <Link href={dashboardRoutes.wallet} className={styles.primaryBtn}>Open Wallet</Link>
             </div>
             <div className={styles.walletMockup}>
               <div className={styles.walletOverlay}></div>
@@ -118,7 +121,7 @@ export default function HowItWorks() {
                 Maintain strict budget controls and absolute privacy while navigating 
                 the global luxury market.
               </p>
-              <button className={styles.secondaryBtn}>Create Card</button>
+              <Link href={dashboardRoutes.getCard} className={styles.secondaryBtn}>Create Card</Link>
             </div>
           </div>
         </section>
@@ -135,11 +138,7 @@ export default function HowItWorks() {
               Your capital is protected by institutional-grade encryption and strict PCI DSS compliance. 
               We employ zero-knowledge architecture to ensure your transactional privacy remains absolute.
             </p>
-            <div className={styles.paymentLogos}>
-              <span>VISA</span>
-              <span>MasterCard</span>
-              <span>PCI DSS</span>
-            </div>
+            <PaymentLogos className={styles.paymentLogos} />
           </div>
 
           {/* Use Cases */}
@@ -192,7 +191,7 @@ export default function HowItWorks() {
           <p className={styles.ctaText}>
             Experience the invisible concierge. Elevate your financial infrastructure today.
           </p>
-          <button className={styles.ctaBtn}>Create Account</button>
+          <Link href="/register" className={styles.ctaBtn}>Create Account</Link>
         </section>
       </main>
     </>

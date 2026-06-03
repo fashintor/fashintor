@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db';
 import User from '@/models/User';
 import { generateRandomToken } from '@/lib/auth';
-import { sendVerificationEmail } from '@/lib/email';
+import { sendVerificationEmail, formatEmailError } from '@/lib/email';
 
 export async function POST(request) {
   try {
@@ -29,13 +29,16 @@ export async function POST(request) {
 
     try {
       const result = await sendVerificationEmail(user.email, token, `${user.firstName} ${user.lastName}`);
-      if (result && result.previewUrl) {
-        return NextResponse.json({ success: true, previewUrl: result.previewUrl, warning: 'Email sent to test inbox (Ethereal). Check server logs for preview link.' });
-      }
-      return NextResponse.json({ success: true });
+      return NextResponse.json({
+        success: true,
+        provider: result?.provider || 'unknown',
+        message: 'Verification email sent. Check your inbox and spam folder.',
+      });
     } catch (emailErr) {
       console.error('Failed to resend verification email:', emailErr);
-      return NextResponse.json({ success: false, error: 'Failed to send verification email (check server SMTP settings)' }, { status: 502 });
+      const message = formatEmailError(emailErr);
+      const status = message.includes('Test mode') ? 400 : 502;
+      return NextResponse.json({ success: false, error: message }, { status });
     }
   } catch (err) {
     console.error('Resend verification error:', err);

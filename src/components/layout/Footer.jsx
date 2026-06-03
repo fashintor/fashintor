@@ -8,14 +8,13 @@ export default function Footer() {
   const pathname = usePathname()
   const currentYear = new Date().getFullYear()
 
-  // Company information (uses NEXT_PUBLIC_* env vars when available)
   const companyInfo = {
-    name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA FINANCE LTD',
-    registration: process.env.NEXT_PUBLIC_COMPANY_NUMBER || '12345678',
-    vat: process.env.NEXT_PUBLIC_COMPANY_VAT || 'GB123456789',
-    address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS || '25 Berkeley Square, Mayfair, London, W1J 6HN, United Kingdom',
-    email: process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'contact@aura.finance',
-    phone: process.env.NEXT_PUBLIC_COMPANY_PHONE || '+44 (0) 20 7123 4567',
+    name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'WALLETOR LTD',
+    registration: process.env.NEXT_PUBLIC_COMPANY_NUMBER || '17207665',
+    vat: process.env.NEXT_PUBLIC_COMPANY_VAT || '',
+    address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS || 'Dept 6792, 196 High Road, Wood Green, London, United Kingdom, N22 8HH',
+    email: process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'info@fashintor.com',
+    phone: process.env.NEXT_PUBLIC_COMPANY_PHONE || '+44 7863 779241',
   }
 
   // Main navigation links
@@ -52,7 +51,7 @@ export default function Footer() {
         <div className={styles.grid}>
           {/* Brand Column */}
           <div className={styles.brandColumn}>
-            <div className={styles.logo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}</div>
+            <div className={styles.logo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]}</div>
             <p className={styles.tagline}>
               Global luxury financial ecosystem for discerning individuals.
             </p>
@@ -123,10 +122,12 @@ export default function Footer() {
               <span className={styles.infoLabel}>Registration:</span>
               <span className={styles.infoValue}>{companyInfo.registration}</span>
             </div>
-            <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>VAT:</span>
-              <span className={styles.infoValue}>{companyInfo.vat}</span>
-            </div>
+            {companyInfo.vat ? (
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>VAT:</span>
+                <span className={styles.infoValue}>{companyInfo.vat}</span>
+              </div>
+            ) : null}
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Address:</span>
               <span className={styles.infoValue}>{companyInfo.address}</span>

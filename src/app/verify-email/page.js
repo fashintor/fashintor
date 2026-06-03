@@ -1,20 +1,27 @@
 'use client'
 import { Suspense, useState, useEffect } from 'react'
-import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { dashboardRoutes } from '@/lib/routes'
 import styles from './page.module.scss'
+
+const ERROR_MESSAGES = {
+  'invalid-token': 'Invalid verification link. Please request a new email.',
+  'invalid-or-expired': 'This link has expired or was already used. Resend a new verification email below.',
+  server: 'Something went wrong. Please try again or contact support.',
+}
 
 function VerifyEmailContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const email = searchParams.get('email') || ''
+  const errorCode = searchParams.get('error') || ''
 
   const [resendCount, setResendCount] = useState(0)
   const [countdown, setCountdown] = useState(0)
   const [isResending, setIsResending] = useState(false)
   const [resendSuccess, setResendSuccess] = useState(false)
   const [errors, setErrors] = useState({})
-  const [previewUrl, setPreviewUrl] = useState('')
-  const [isVerifying, setIsVerifying] = useState(false)
+  const [isChecking, setIsChecking] = useState(false)
 
   useEffect(() => {
     let timer
@@ -23,6 +30,12 @@ function VerifyEmailContent() {
     }
     return () => clearTimeout(timer)
   }, [countdown])
+
+  useEffect(() => {
+    if (errorCode) {
+      setErrors({ page: ERROR_MESSAGES[errorCode] || 'Verification failed.' })
+    }
+  }, [errorCode])
 
   const handleResendEmail = async () => {
     if (countdown > 0 || isResending) return
@@ -38,27 +51,24 @@ function VerifyEmailContent() {
       const resp = await fetch('/api/auth/resend-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
       })
 
       const data = await resp.json()
 
       if (resp.ok && data.success) {
-        // If server returned a previewUrl, store it for clickable UI
-        if (data.previewUrl) {
-          setPreviewUrl(data.previewUrl)
-          setErrors(prev => ({ ...prev, resend: data.warning || 'Email delivered to test inbox (preview available).' }))
-        } else if (data.warning) {
-          setErrors(prev => ({ ...prev, resend: data.warning }))
-        } else {
-          setResendCount(prev => prev + 1)
-          setResendSuccess(true)
-          setCountdown(60)
-          setTimeout(() => setResendSuccess(false), 3000)
-        }
+        setErrors(prev => {
+          const next = { ...prev }
+          delete next.resend
+          delete next.page
+          return next
+        })
+        setResendCount(prev => prev + 1)
+        setResendSuccess(true)
+        setCountdown(60)
+        setTimeout(() => setResendSuccess(false), 5000)
       } else {
-        console.error('Resend failed:', data)
-        setErrors(prev => ({ ...prev, resend: data.error || data.warning || 'Resend failed' }))
+        setErrors(prev => ({ ...prev, resend: data.error || 'Resend failed' }))
       }
     } catch (error) {
       console.error('Failed to resend email:', error)
@@ -69,64 +79,57 @@ function VerifyEmailContent() {
   }
 
   const handleChangeEmail = () => {
-    // Redirect to registration with email pre-filled
     window.location.href = '/register?changeEmail=true'
   }
 
   const handleContinue = async () => {
-    setIsVerifying(true)
-    
-    // Check verification status (simulate API call)
+    setIsChecking(true)
+    setErrors(prev => {
+      const next = { ...prev }
+      delete next.continue
+      return next
+    })
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      // Check if email is verified (in production, this would check with backend)
-      const isVerified = localStorage.getItem('emailVerified') === 'true'
-      
-      if (isVerified) {
-        window.location.href = '/virtual-card'
-      } else {
-        // For demo purposes, show verification needed
-        alert('Please verify your email first by clicking the link sent to your inbox')
+      const headers = {}
+      const savedToken = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null
+      if (savedToken) headers['Authorization'] = `Bearer ${savedToken}`
+
+      const resp = await fetch('/api/auth/me', { credentials: 'same-origin', headers })
+      if (resp.ok) {
+        const data = await resp.json()
+        if (data.user?.emailVerified) {
+          router.push(dashboardRoutes.wallet)
+          return
+        }
       }
+
+      setErrors(prev => ({
+        ...prev,
+        continue: 'Email not verified yet. Click the link in your inbox, or resend the email below.',
+      }))
     } catch (error) {
       console.error('Error checking verification:', error)
+      setErrors(prev => ({ ...prev, continue: 'Could not check status. Try again.' }))
     } finally {
-      setIsVerifying(false)
+      setIsChecking(false)
     }
   }
 
-  // For demo purposes - simulate verification when coming back from email
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const verified = urlParams.get('verified')
-    if (verified === 'true') {
-      localStorage.setItem('emailVerified', 'true')
-      // Show success message and redirect after 2 seconds
-      setTimeout(() => {
-        window.location.href = '/virtual-card'
-      }, 2000)
-    }
-  }, [])
-
   return (
     <div className={styles.container}>
-      {/* Main Content */}
       <main className={styles.main}>
         <div className={styles.contentWrapper}>
-          {/* Glassmorphism Card */}
           <div className={styles.card}>
-            {/* Background Decorative Element */}
             <div className={styles.cardBg}></div>
-            
-            {/* Icon */}
+
             <div className={styles.iconWrapper}>
               <span className="material-symbols-outlined">mail</span>
             </div>
 
-            {/* Typography */}
             <h1 className={styles.title}>Verify Your Email</h1>
             <p className={styles.subtitle}>
-              We've sent a secure confirmation link to <br />
+              We&apos;ve sent a secure confirmation link to <br />
               {email ? (
                 <span className={styles.emailHighlight}>{email}</span>
               ) : (
@@ -134,7 +137,13 @@ function VerifyEmailContent() {
               )}
             </p>
 
-            {/* Instructions Block */}
+            {errors.page && (
+              <div className={styles.errorMessage}>
+                <span className="material-symbols-outlined">error</span>
+                <span>{errors.page}</span>
+              </div>
+            )}
+
             <div className={styles.instructions}>
               <ul className={styles.stepsList}>
                 <li className={styles.stepItem}>
@@ -143,31 +152,29 @@ function VerifyEmailContent() {
                 </li>
                 <li className={styles.stepItem}>
                   <span className={styles.stepNumber}>02</span>
-                  <span>Click the verification link</span>
+                  <span>Click the verification button</span>
                 </li>
                 <li className={styles.stepItem}>
                   <span className={styles.stepNumber}>03</span>
-                  <span>Return here to continue</span>
+                  <span>You will be taken to your wallet automatically</span>
                 </li>
               </ul>
             </div>
 
-            {/* Actions */}
             <div className={styles.actions}>
-              <button 
+              <button
                 onClick={handleResendEmail}
                 disabled={countdown > 0 || isResending || !email}
                 className={styles.resendBtn}
               >
                 <span>
-                  {isResending 
-                    ? 'SENDING...' 
-                    : countdown > 0 
-                      ? `RESEND IN ${countdown}s` 
-                      : 'RESEND EMAIL'
-                  }
+                  {isResending
+                    ? 'SENDING...'
+                    : countdown > 0
+                      ? `RESEND IN ${countdown}s`
+                      : 'RESEND EMAIL'}
                 </span>
-                <span className={`${styles.arrowIcon} ${(!isResending && countdown === 0) ? styles.visible : ''}`}>
+                <span className={`${styles.arrowIcon} ${!isResending && countdown === 0 ? styles.visible : ''}`}>
                   <span className="material-symbols-outlined">arrow_forward</span>
                 </span>
               </button>
@@ -175,7 +182,7 @@ function VerifyEmailContent() {
               {resendSuccess && (
                 <div className={styles.successMessage}>
                   <span className="material-symbols-outlined">check_circle</span>
-                  <span>Verification email resent successfully!</span>
+                  <span>Email sent! Check your inbox and spam folder.</span>
                 </div>
               )}
 
@@ -186,46 +193,27 @@ function VerifyEmailContent() {
                 </div>
               )}
 
-              {previewUrl && (
-                <div className={styles.previewRow}>
-                  <a href={previewUrl} target="_blank" rel="noreferrer" className={styles.previewLink}>
-                    Open email preview
-                  </a>
-                  <button
-                    type="button"
-                    className={styles.copyBtn}
-                    onClick={() => {
-                      try { navigator.clipboard.writeText(previewUrl); setErrors(prev => ({ ...prev, resendCopy: 'Preview link copied' })); }
-                      catch (e) { setErrors(prev => ({ ...prev, resendCopy: 'Copy failed' })); }
-                    }}
-                  >
-                    Copy link
-                  </button>
+              {errors.continue && (
+                <div className={styles.errorMessage}>
+                  <span className="material-symbols-outlined">info</span>
+                  <span>{errors.continue}</span>
                 </div>
               )}
 
-              {errors.resendCopy && (
-                <div className={styles.copyMessage}>{errors.resendCopy}</div>
-              )}
-
               <div className={styles.secondaryActions}>
-                <button 
-                  onClick={handleChangeEmail}
-                  className={styles.changeEmailBtn}
-                >
+                <button onClick={handleChangeEmail} className={styles.changeEmailBtn}>
                   CHANGE EMAIL
                 </button>
-                <button 
+                <button
                   onClick={handleContinue}
-                  disabled={isVerifying}
+                  disabled={isChecking}
                   className={styles.continueBtn}
                 >
-                  {isVerifying ? 'CHECKING...' : 'ALREADY VERIFIED? CONTINUE'}
+                  {isChecking ? 'CHECKING...' : 'ALREADY VERIFIED? CONTINUE'}
                 </button>
               </div>
             </div>
 
-            {/* Security Note */}
             <div className={styles.securityNote}>
               <span className="material-symbols-outlined">lock</span>
               <span>This step helps us keep your account secure.</span>

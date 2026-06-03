@@ -2,36 +2,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { countries } from '@/utils/countries'
 import styles from './page.module.scss'
-
-// List of countries (excluding restricted regions)
-const countries = [
-  { code: 'GB', name: 'United Kingdom' },
-  { code: 'US', name: 'United States' },
-  { code: 'CH', name: 'Switzerland' },
-  { code: 'SG', name: 'Singapore' },
-  { code: 'AE', name: 'United Arab Emirates' },
-  { code: 'FR', name: 'France' },
-  { code: 'DE', name: 'Germany' },
-  { code: 'IT', name: 'Italy' },
-  { code: 'ES', name: 'Spain' },
-  { code: 'NL', name: 'Netherlands' },
-  { code: 'BE', name: 'Belgium' },
-  { code: 'LU', name: 'Luxembourg' },
-  { code: 'AT', name: 'Austria' },
-  { code: 'SE', name: 'Sweden' },
-  { code: 'DK', name: 'Denmark' },
-  { code: 'NO', name: 'Norway' },
-  { code: 'FI', name: 'Finland' },
-  { code: 'PT', name: 'Portugal' },
-  { code: 'GR', name: 'Greece' },
-  { code: 'PL', name: 'Poland' },
-  { code: 'CZ', name: 'Czech Republic' },
-  { code: 'AU', name: 'Australia' },
-  { code: 'NZ', name: 'New Zealand' },
-  { code: 'JP', name: 'Japan' },
-  { code: 'KR', name: 'South Korea' },
-];
 
 export default function Register() {
   const router = useRouter()
@@ -164,7 +136,7 @@ export default function Register() {
         <div className={styles.formWrapper}>
           <div className={styles.formHeader}>
             <h1 className={styles.title}>Create Account</h1>
-            <p className={styles.subtitle}>Join {process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA'} for secure global shopping</p>
+            <p className={styles.subtitle}>Join {process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor'} for secure global shopping</p>
           </div>
 
           {errors.submit && (
@@ -314,9 +286,7 @@ export default function Register() {
                     onChange={handleChange}
                     className={styles.checkbox}
                   />
-                  <div className={styles.checkboxCustom}>
-                    <span className="material-symbols-outlined">check</span>
-                  </div>
+                  <div className={styles.checkboxCustom} aria-hidden="true" />
                 </div>
                 <span>
                   I agree to the{' '}

@@ -6,19 +6,19 @@ export const config = {
   // Test Mode
   testMode: process.env.TEST_MODE === 'true',
   testUserBalance: parseFloat(process.env.TEST_USER_BALANCE) || 1000000,
-  testUserEmail: process.env.TEST_USER_EMAIL || 'test@aura.finance',
+  testUserEmail: process.env.TEST_USER_EMAIL || 'test@walletor.ltd',
   testUserPassword: process.env.TEST_USER_PASSWORD || 'Test123456',
   
   // Currencies
-  supportedCurrencies: ['EUR', 'USD', 'GBP', 'JPY', 'CHF'],
+  supportedCurrencies: ['EUR', 'USD', 'GBP'],
   
   // Limits
   minTopUp: 10,
   maxBalance: 1000000,
   
   // Fees
-  cardTopUpFee: 1.5, // 1.5%
-  currencyConversionFee: 0.5, // 0.5%
+  cardTopUpFee: 0,
+  currencyConversionFee: 0,
   
   // Transaction statuses
   transactionStatus: {

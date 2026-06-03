@@ -65,7 +65,8 @@ const protectedRoutes = [
 const authRoutes = ['/login', '/register'];
 
 export function middleware(request) {
-  const token = request.cookies.get('auth-token')?.value;
+  const rawToken = request.cookies.get('auth-token')?.value;
+  const token = rawToken && rawToken.length > 10 ? rawToken : null;
   // Determine token validity using exp claim only (edge-safe).
   let validToken = null;
   if (token) {
@@ -97,7 +98,21 @@ export function middleware(request) {
 
   // Redirect to dashboard if auth route and has a valid token
   if (isAuthRoute && validToken) {
-    return NextResponse.redirect(new URL('/wallet', request.url));
+    return NextResponse.redirect(new URL('/dashboard/wallet', request.url));
+  }
+
+  // Stale/empty cookie on login/register — clear it so logout state is consistent
+  if (isAuthRoute && rawToken && !validToken) {
+    const response = NextResponse.next();
+    response.cookies.set('auth-token', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 0,
+      expires: new Date(0),
+    });
+    return response;
   }
 
   return NextResponse.next();
@@ -114,7 +129,6 @@ export const config = {
     '/transactions/:path*',
     '/login',
     '/register',
-    '/verify-email',
     '/api/wallet/:path*',
     '/api/cards/:path*',
     '/api/transactions/:path*',

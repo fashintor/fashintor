@@ -53,6 +53,18 @@ export function verifyToken(token) {
   }
 }
 
+/** Cookie (httpOnly) or Authorization: Bearer for API routes */
+export function getTokenFromRequest(request) {
+  let token = request.cookies.get('auth-token')?.value;
+  if (!token || token.length < 10) {
+    const authHeader = request.headers.get('authorization') || request.headers.get('Authorization') || '';
+    if (authHeader.startsWith('Bearer ')) {
+      token = authHeader.slice(7).trim();
+    }
+  }
+  return token && token.length > 10 ? token : null;
+}
+
 // Generate random token for email verification
 export function generateRandomToken() {
   return Math.random().toString(36).substring(2, 15) + 

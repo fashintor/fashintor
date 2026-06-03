@@ -86,26 +86,30 @@ export default function Contact() {
     }
   }
 
+  const companyEmail = process.env.NEXT_PUBLIC_COMPANY_EMAIL || 'info@fashintor.com'
+  const companyPhone = process.env.NEXT_PUBLIC_COMPANY_PHONE || '+44 7863 779241'
+  const companyAddress = process.env.NEXT_PUBLIC_COMPANY_ADDRESS || 'Dept 6792, 196 High Road, Wood Green, London, United Kingdom, N22 8HH'
+
   const contactMethods = [
     {
       icon: 'mail',
       title: 'Email Support',
       description: 'For general inquiries and detailed requests.',
-      contact: 'support@aurum.com',
-      link: 'mailto:support@aurum.com'
+      contact: companyEmail,
+      link: `mailto:${companyEmail}`
     },
     {
       icon: 'call',
       title: 'Direct Line',
-      description: 'Immediate assistance from our private client advisors.',
-      contact: '+1 800 AURUM LUX',
-      link: 'tel:+18002878659'
+      description: 'Assistance from our client support team.',
+      contact: companyPhone,
+      link: `tel:${companyPhone.replace(/\s/g, '')}`
     },
     {
       icon: 'location_on',
       title: 'Office',
-      description: 'By appointment only.',
-      contact: 'Mayfair, London'
+      description: 'Registered office address.',
+      contact: companyAddress
     }
   ]
 

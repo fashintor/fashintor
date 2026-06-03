@@ -10,7 +10,7 @@ export default function Pricing() {
     {
       icon: 'credit_card',
       title: 'Card Creation',
-      description: 'Your physical and virtual entry to Aureum.',
+      description: 'Your physical and virtual entry to Walletor.',
       price: 'Free'
     },
     {
@@ -36,12 +36,12 @@ export default function Pricing() {
     {
       label: 'INSTANT CARD TOP-UPS',
       description: 'Expedited liquidity via external cards',
-      value: '1.5%'
+      value: '0%'
     },
     {
       label: 'CURRENCY CONVERSION',
-      description: 'Mid-market rate + flat convenience fee',
-      value: '0.5%'
+      description: 'Mid-market rate with no additional fee',
+      value: '0%'
     }
   ]
 
@@ -58,7 +58,7 @@ export default function Pricing() {
     },
     {
       label: 'SUPPORTED CURRENCIES',
-      description: 'EUR, USD, GBP, JPY, CHF',
+      description: 'EUR, USD, GBP',
       value: 'language'
     }
   ]

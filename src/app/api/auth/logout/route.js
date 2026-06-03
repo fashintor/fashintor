@@ -5,15 +5,15 @@ export async function POST() {
     success: true,
     message: 'Logged out successfully',
   });
-  
-  // Clear the auth cookie
+
   response.cookies.set('auth-token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 0,
     path: '/',
+    maxAge: 0,
+    expires: new Date(0),
   });
-  
+
   return response;
 }

@@ -1,0 +1,22 @@
+.logos {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.logoItem {
+  display: flex;
+  align-items: center;
+}
+
+.pciImage {
+  height: 40px;
+  width: auto;
+}
+
+.visaImage,
+.mastercardImage {
+  height: 35px;
+  width: auto;
+}

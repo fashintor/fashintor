@@ -20,26 +20,8 @@ export default function VirtualCard() {
   
   const [showFullDetails, setShowFullDetails] = useState(false)
   const [isFrozen, setIsFrozen] = useState(false)
-  const [recentActivity, setRecentActivity] = useState([
-    {
-      id: 1,
-      merchant: 'Net-a-Porter',
-      date: 'Today',
-      time: '14:30',
-      amount: -1200.00,
-      currency: '€',
-      icon: 'shopping_bag'
-    },
-    {
-      id: 2,
-      merchant: 'LuisaViaRoma',
-      date: 'Yesterday',
-      time: '09:15',
-      amount: -850.00,
-      currency: '€',
-      icon: 'shopping_bag'
-    }
-  ])
+  const [recentActivity, setRecentActivity] = useState([])
+  const [activityFetched, setActivityFetched] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
@@ -87,6 +69,38 @@ export default function VirtualCard() {
     }
 
     fetchCardDetails()
+  }, [])
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const headers = {}
+        const savedToken = typeof window !== 'undefined' ? localStorage.getItem('auth-token') : null
+        if (savedToken) headers['Authorization'] = `Bearer ${savedToken}`
+        const res = await fetch('/api/transactions', { credentials: 'same-origin', headers })
+        if (res.ok) {
+          const json = await res.json()
+          const txs = (json.transactions || []).slice(0, 5).map((tx) => ({
+            id: tx.id,
+            merchant: tx.merchant,
+            date: tx.date,
+            time: tx.timestamp
+              ? new Date(tx.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              : '',
+            amount: tx.amount,
+            currency: typeof tx.currency === 'string' ? tx.currency.trim() : '€',
+            icon: 'shopping_bag',
+          }))
+          setRecentActivity(txs)
+        }
+      } catch (error) {
+        console.error('Failed to fetch transactions:', error)
+      } finally {
+        setActivityFetched(true)
+      }
+    }
+
+    fetchTransactions()
   }, [])
 
   const toggleCardDetails = () => {
@@ -182,11 +196,6 @@ export default function VirtualCard() {
     } finally {
       setIsLoading(false)
     }
-  }
-
-  const formatCurrency = (amount) => {
-    const absAmount = Math.abs(amount).toFixed(2)
-    return amount < 0 ? `- €${absAmount}` : `€${absAmount}`
   }
 
   return (
@@ -350,24 +359,30 @@ export default function VirtualCard() {
           </div>
           
           <div className={styles.activityList}>
-            {recentActivity.map(activity => (
-              <div key={activity.id} className={styles.activityItem}>
-                <div className={styles.activityInfo}>
-                  <div className={styles.activityIcon}>
-                    <span className="material-symbols-outlined">{activity.icon}</span>
+            {!activityFetched ? (
+              <p className={styles.activityEmpty}>Loading activity…</p>
+            ) : recentActivity.length === 0 ? (
+              <p className={styles.activityEmpty}>No purchases yet. Your transactions will appear here.</p>
+            ) : (
+              recentActivity.map(activity => (
+                <div key={activity.id} className={styles.activityItem}>
+                  <div className={styles.activityInfo}>
+                    <div className={styles.activityIcon}>
+                      <span className="material-symbols-outlined">{activity.icon}</span>
+                    </div>
+                    <div className={styles.activityDetails}>
+                      <span className={styles.activityMerchant}>{activity.merchant}</span>
+                      <span className={styles.activityDate}>
+                        {activity.date}{activity.time ? `, ${activity.time}` : ''}
+                      </span>
+                    </div>
                   </div>
-                  <div className={styles.activityDetails}>
-                    <span className={styles.activityMerchant}>{activity.merchant}</span>
-                    <span className={styles.activityDate}>
-                      {activity.date}, {activity.time}
-                    </span>
-                  </div>
+                  <span className={styles.activityAmount}>
+                    {activity.amount < 0 ? '-' : '+'}{activity.currency}{Math.abs(activity.amount).toFixed(2)}
+                  </span>
                 </div>
-                <span className={styles.activityAmount}>
-                  {formatCurrency(activity.amount)}
-                </span>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </section>
 

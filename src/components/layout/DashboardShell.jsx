@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { dashboardRoutes } from '@/lib/routes'
+import { clearAuthSession } from '@/lib/auth-session'
 import styles from './DashboardShell.module.scss'
 
 const navItems = [
@@ -27,7 +28,7 @@ export default function DashboardShell({ children }) {
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <Link href={dashboardRoutes.wallet} className={styles.brand}>
-          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}
+          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]}
         </Link>
         <p className={styles.brandHint}>Dashboard</p>
 
@@ -45,6 +46,17 @@ export default function DashboardShell({ children }) {
         </nav>
 
         <div className={styles.sidebarFooter}>
+          <button
+            type="button"
+            className={styles.backLink}
+            onClick={async () => {
+              await clearAuthSession()
+              window.location.href = '/login'
+            }}
+          >
+            <span className="material-symbols-outlined">logout</span>
+            Log out
+          </button>
           <Link href="/" className={styles.backLink}>
             <span className="material-symbols-outlined">arrow_back</span>
             Back to website

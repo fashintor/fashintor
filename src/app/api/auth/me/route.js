@@ -3,32 +3,30 @@ import { NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/db';
 import User from '@/models/User';
 import Wallet from '@/models/Wallet';
-import { verifyToken } from '@/lib/auth';
+import { verifyToken, getTokenFromRequest } from '@/lib/auth';
 
 export async function GET(request) {
   try {
     await connectToDatabase();
     
-    // Get token from cookies
-    const token = request.cookies.get('auth-token')?.value;
-    
+    const token = getTokenFromRequest(request);
+
     if (!token) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
       );
     }
-    
+
     const decoded = verifyToken(token);
-    
+
     if (!decoded) {
       return NextResponse.json(
         { error: 'Invalid token' },
         { status: 401 }
       );
     }
-    
-    // Get user with wallet
+
     const user = await User.findById(decoded.userId);
     
     if (!user) {
@@ -71,26 +69,24 @@ export async function PUT(request) {
   try {
     await connectToDatabase();
     
-    // Get token from cookies
-    const token = request.cookies.get('auth-token')?.value;
-    
+    const token = getTokenFromRequest(request);
+
     if (!token) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
       );
     }
-    
+
     const decoded = verifyToken(token);
-    
+
     if (!decoded) {
       return NextResponse.json(
         { error: 'Invalid token' },
         { status: 401 }
       );
     }
-    
-    // Get user
+
     const user = await User.findById(decoded.userId);
     
     if (!user) {

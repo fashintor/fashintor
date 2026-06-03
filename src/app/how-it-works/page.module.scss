@@ -368,7 +368,10 @@
 }
 
 // Buttons
-.primaryBtn {
+.primaryBtn,
+a.primaryBtn {
+  display: inline-block;
+  text-decoration: none;
   background: #000000;
   color: white;
   padding: 12px 32px;
@@ -404,7 +407,10 @@
   }
 }
 
-.secondaryBtn {
+.secondaryBtn,
+a.secondaryBtn {
+  display: inline-block;
+  text-decoration: none;
   background: transparent;
   color: #000000;
   padding: 12px 32px;
@@ -707,7 +713,10 @@
   margin-right: auto;
 }
 
-.ctaBtn {
+.ctaBtn,
+a.ctaBtn {
+  display: inline-block;
+  text-decoration: none;
   background: #000000;
   color: white;
   padding: 16px 40px;

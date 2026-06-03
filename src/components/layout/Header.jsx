@@ -2,6 +2,7 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { clearAuthSession } from '@/lib/auth-session'
 import styles from './Header.module.scss'
 
 export default function Header() {
@@ -18,25 +19,17 @@ export default function Header() {
   useLayoutEffect(() => {
     isMounted.current = true
 
-    const token = localStorage.getItem('auth-token')
-    if (!token) {
-      setIsLoggedIn(false)
-      setUserName('')
-      setAuthResolved(true)
-      return () => {
-        isMounted.current = false
-      }
-    }
-
     let cancelled = false
 
     ;(async () => {
       try {
+        const token = localStorage.getItem('auth-token')
+        const headers = {}
+        if (token) headers.Authorization = `Bearer ${token}`
+
         const response = await fetch('/api/auth/me', {
-          credentials: 'same-origin',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          credentials: 'include',
+          headers,
         })
 
         if (cancelled || !isMounted.current) return
@@ -46,7 +39,7 @@ export default function Header() {
           setIsLoggedIn(true)
           setUserName(data.user?.firstName || '')
         } else {
-          localStorage.removeItem('auth-token')
+          await clearAuthSession()
           setIsLoggedIn(false)
           setUserName('')
         }
@@ -79,12 +72,7 @@ export default function Header() {
   }, [])
 
   const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' })
-    } catch (error) {
-      console.error('Logout error:', error)
-    }
-    localStorage.removeItem('auth-token')
+    await clearAuthSession()
     setIsLoggedIn(false)
     setUserName('')
     window.location.href = '/login'
@@ -104,7 +92,7 @@ export default function Header() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
         <Link href={authResolved && isLoggedIn ? '/wallet' : '/'} className={styles.logo}>
-          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}
+          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]}
         </Link>
 
         <nav className={styles.desktopNav}>

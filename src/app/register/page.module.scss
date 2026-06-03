@@ -232,21 +232,25 @@
   justify-content: center;
   transition: all 0.2s;
   background: white;
+  position: relative;
 
-  span {
-    font-size: 14px;
-    color: white;
-    opacity: 0;
-    transition: opacity 0.2s;
-    font-variation-settings: 'wght' 700;
+  &::after {
+    content: '';
+    display: none;
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-bottom: 2px;
   }
 }
 
 .checkbox:checked + .checkboxCustom {
   background: #000000;
 
-  span {
-    opacity: 1;
+  &::after {
+    display: block;
   }
 }
 

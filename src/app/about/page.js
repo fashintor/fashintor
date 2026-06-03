@@ -1,6 +1,8 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
+import PaymentLogos from '@/components/ui/PaymentLogos'
+import { companyDefaults } from '@/lib/company'
 import styles from './page.module.scss'
 
 export default function About() {
@@ -153,11 +155,7 @@ export default function About() {
                 encryption protocols and partner with top-tier financial networks to guarantee 
                 the sanctity of your capital.
               </p>
-              <div className={styles.securityBadges}>
-                <div className={styles.pciBadge}>PCI DSS Compliant</div>
-                <div className={styles.visaBadge}>VISA</div>
-                <div className={styles.mastercardBadge}>Mastercard</div>
-              </div>
+              <PaymentLogos className={styles.securityBadges} />
             </div>
 
             <div className={`${styles.companyDetails} ${styles.glassPanel} ${styles.revealUp}`}>
@@ -165,18 +163,27 @@ export default function About() {
               <div className={styles.detailsList}>
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>Registration</span>
-                  <p className={styles.detailValue}>{process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura Luxury Fintech Ltd.'}</p>
-                  <p className={styles.detailSubtext}>Company No. {process.env.NEXT_PUBLIC_COMPANY_NUMBER || '12345678'} (England & Wales)</p>
+                  <p className={styles.detailValue}>{companyDefaults.name}</p>
+                  <p className={styles.detailSubtext}>Company No. {companyDefaults.registration} (England & Wales)</p>
                 </div>
-                <div className={styles.detailItem}>
-                  <span className={styles.detailLabel}>VAT Number</span>
-                  <p className={styles.detailValue}>GB 987 6543 21</p>
-                </div>
+                {companyDefaults.vat ? (
+                  <div className={styles.detailItem}>
+                    <span className={styles.detailLabel}>VAT Number</span>
+                    <p className={styles.detailValue}>{companyDefaults.vat}</p>
+                  </div>
+                ) : null}
                 <div className={styles.detailItem}>
                   <span className={styles.detailLabel}>Headquarters</span>
-                  <p className={styles.detailValue}>1 Mayfair Place</p>
-                  <p className={styles.detailValue}>London, W1J 8AJ</p>
-                  <p className={styles.detailValue}>United Kingdom</p>
+                  <p className={styles.detailValue}>{companyDefaults.address}</p>
+                </div>
+                <div className={styles.detailItem}>
+                  <span className={styles.detailLabel}>Contact</span>
+                  <p className={styles.detailValue}>
+                    <a href={`mailto:${companyDefaults.email}`}>{companyDefaults.email}</a>
+                  </p>
+                  <p className={styles.detailValue}>
+                    <a href={`tel:${companyDefaults.phone.replace(/\s/g, '')}`}>{companyDefaults.phone}</a>
+                  </p>
                 </div>
               </div>
             </div>

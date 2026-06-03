@@ -523,6 +523,15 @@
   flex-direction: column;
 }
 
+.activityEmpty {
+  padding: 24px 16px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 14px;
+  color: #747878;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .activityItem {
   display: flex;
   justify-content: space-between;
