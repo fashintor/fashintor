@@ -96,8 +96,8 @@ export default function Home() {
       answer: "No. Premium members can generate an unlimited number of single-use or merchant-specific cards as needed for their transactions."
     },
     {
-      question: `What boutiques support ${(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]}?`,
-      answer: `${(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} cards are issued via Visa and Mastercard networks, meaning they are accepted at virtually every luxury retailer and boutique globally, both online and in-store.`
+      question: `What boutiques support ${(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]}?`,
+      answer: `${(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} cards are issued via Visa and Mastercard networks, meaning they are accepted at virtually every luxury retailer and boutique globally, both online and in-store.`
     },
     {
       question: "How secure is my data?",
@@ -113,11 +113,11 @@ export default function Home() {
   ]
 
   const comparisons = [
-    { feature: 'Global Merchant Acceptance', aura: true, traditional: false },
-    { feature: 'Instant Virtual Generation', aura: true, traditional: false },
-    { feature: 'Private Billing Address', aura: true, traditional: false },
-    { feature: 'Institutional FX Rates', aura: true, traditional: 'Varies' },
-    { feature: 'Merchant-Locked Security', aura: true, traditional: false },
+    { feature: 'Global Merchant Acceptance', brand: true, traditional: false },
+    { feature: 'Instant Virtual Generation', brand: true, traditional: false },
+    { feature: 'Private Billing Address', brand: true, traditional: false },
+    { feature: 'Institutional FX Rates', brand: true, traditional: 'Varies' },
+    { feature: 'Merchant-Locked Security', brand: true, traditional: false },
   ]
 
   const handleApplyMembership = () => router.push('/register')
@@ -215,14 +215,14 @@ export default function Home() {
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <h2>Redefining Standard</h2>
-            <p>Why modern collectors choose {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} over traditional banking.</p>
+            <p>Why modern collectors choose {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} over traditional banking.</p>
           </div>
           <div className={styles.tableWrapper}>
             <table className={styles.compTable}>
               <thead>
                 <tr>
                   <th>Capability</th>
-                  <th>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} Premium</th>
+                  <th>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} Premium</th>
                   <th>Standard Bank</th>
                 </tr>
               </thead>
@@ -230,7 +230,7 @@ export default function Home() {
                 {comparisons.map((row, i) => (
                   <tr key={i}>
                     <td>{row.feature}</td>
-                    <td>{row.aura ? <span className="material-symbols-outlined">check</span> : '—'}</td>
+                    <td>{row.brand ? <span className="material-symbols-outlined">check</span> : '—'}</td>
                     <td>{row.traditional === true ? <span className="material-symbols-outlined">check</span> : row.traditional === false ? '—' : row.traditional}</td>
                   </tr>
                 ))}
@@ -265,7 +265,7 @@ export default function Home() {
         <div className={styles.parallaxOverlay}></div>
         <div className={styles.parallaxContent}>
           <h2>Shop globally without limits.</h2>
-          <p>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]} removes the digital borders of luxury commerce, allowing you to acquire what you desire, wherever it exists.</p>
+          <p>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} removes the digital borders of luxury commerce, allowing you to acquire what you desire, wherever it exists.</p>
           <button onClick={handleExploreConcierge} className={styles.parallaxBtn}>Explore Concierge</button>
         </div>
       </section>
@@ -409,7 +409,7 @@ export default function Home() {
       {/* Final CTA */}
       <section className={styles.finalCta}>
         <div className={styles.ctaContainer}>
-          <h2>Ready for the {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]} experience?</h2>
+          <h2>Ready for the {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} experience?</h2>
           <p>Join a select community of global shoppers who demand precision, privacy, and performance in their financial tools.</p>
           <button onClick={handleRequestAccess} className={styles.ctaButton}>Request Access Now</button>
         </div>

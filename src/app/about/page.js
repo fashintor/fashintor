@@ -79,7 +79,7 @@ export default function About() {
         <section className={`${styles.introSection} ${styles.revealUp}`}>
           <div className={styles.introContent}>
             <p className={styles.introText}>
-              {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura')} exists at the intersection of exclusive access and absolute precision. 
+              {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor')} exists at the intersection of exclusive access and absolute precision. 
               We are the invisible bridge connecting discerning individuals with the world's 
               most coveted luxury items, unbound by geographical limitations.
             </p>
@@ -115,7 +115,7 @@ export default function About() {
         <section className={styles.advantagesSection}>
           <div className={styles.advantagesContainer}>
             <div className={styles.advantagesHeader}>
-              <h2 className={styles.advantagesTitle}>The {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura')} Advantage</h2>
+              <h2 className={styles.advantagesTitle}>The {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor')} Advantage</h2>
             </div>
             
             <div className={styles.advantagesGrid}>

@@ -35,7 +35,7 @@ export default function NotFound() {
           <div className={styles.cardContainer}>
             <div className={styles.floatingCard}>
               <div className={styles.cardHeader}>
-                <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}</span>
+                <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').toUpperCase().split(' ')[0]}</span>
                 <div className={styles.cardChip}></div>
               </div>
               <div className={styles.cardBody}>

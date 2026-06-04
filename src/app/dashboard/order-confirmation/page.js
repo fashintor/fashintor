@@ -8,7 +8,7 @@ import styles from './page.module.scss'
 function OrderConfirmationContent() {
   const searchParams = useSearchParams()
   const [transactionData, setTransactionData] = useState({
-    transactionId: 'TXN-8472-AURA',
+    transactionId: 'TXN-8472-FASHINTOR',
     date: 'Oct 24, 2024',
     time: '14:32 CET',
     amount: '500.00',
@@ -79,7 +79,7 @@ function OrderConfirmationContent() {
       console.log('Downloading receipt...', transactionData)
       
       // Create a simple text receipt for demo
-      const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA FINANCE'
+      const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'WALLETOR LTD'
       const receipt = `
         ${companyName.toUpperCase()} - TRANSACTION RECEIPT
         =================================

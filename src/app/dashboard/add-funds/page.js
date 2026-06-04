@@ -208,7 +208,7 @@ export default function BuyBalance() {
           >
             <h2 style={{ fontSize: '1.25rem', marginBottom: 12 }}>Get a card first</h2>
             <p style={{ marginBottom: 20, lineHeight: 1.5, opacity: 0.9 }}>
-              Wallet top-ups need at least one Aura card. Open My Cards and tap Get a Card, then you can add funds with your bank card.
+              Wallet top-ups need at least one ${(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} card. Open My Cards and tap Get a Card, then you can add funds with your bank card.
             </p>
             <Link href={dashboardRoutes.cards} className={styles.confirmBtn} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none', justifyContent: 'center' }}>
               <span>Go to My Cards</span>

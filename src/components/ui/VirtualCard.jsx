@@ -7,7 +7,7 @@ export default function VirtualCard({ cardNumber = '**** **** **** 8829', expiry
       <div className={styles.bgOverlay}></div>
       <div className={styles.content}>
         <div className={styles.header}>
-          <div className={styles.logo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}</div>
+          <div className={styles.logo}>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').toUpperCase().split(' ')[0]}</div>
           <span className="material-symbols-outlined">contactless</span>
         </div>
         <div className={styles.cardInfo}>

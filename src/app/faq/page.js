@@ -16,13 +16,13 @@ export default function FAQ() {
     { id: 'cards', name: 'Cards', icon: 'credit_card' },
     { id: 'security', name: 'Security', icon: 'shield' }
   ]
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura'
+  const companyName = process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor'
   const companyShort = companyName.split(' ')[0]
 
   const faqs = {
     general: [
       {
-        id: 'what-is-aura',
+        id: 'what-is-fashintor',
         question: `What is ${companyShort}?`,
         answer: `${companyName} is a luxury financial ecosystem designed to seamlessly integrate high-end lifestyle management with robust wealth tools. We offer bespoke virtual cards, concierge services, and secure asset vaults.`
       },

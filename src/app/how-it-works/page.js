@@ -102,7 +102,7 @@ export default function HowItWorks() {
               <div className={styles.cardOverlay}></div>
               <div className={styles.virtualCard}>
                 <div className={styles.cardHeader}>
-                  <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'AURA').split(' ')[0]}</span>
+                  <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').toUpperCase().split(' ')[0]}</span>
                   <span className="material-symbols-outlined">contactless</span>
                 </div>
                 <div className={styles.cardBody}>

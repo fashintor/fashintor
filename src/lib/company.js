@@ -1,6 +1,6 @@
 /** Shared company defaults (override via NEXT_PUBLIC_* env vars) */
 export const companyDefaults = {
-  name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'FASHINTOR',
+  name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'WALLETOR LTD',
   registration: process.env.NEXT_PUBLIC_COMPANY_NUMBER || '17207665',
   vat: process.env.NEXT_PUBLIC_COMPANY_VAT || '',
   address:
@@ -11,5 +11,5 @@ export const companyDefaults = {
 }
 
 export function getCompanyShortName() {
-  return (process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]
+  return (process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]
 }

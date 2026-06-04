@@ -1,7 +1,7 @@
 import DashboardShell from '@/components/layout/DashboardShell'
 
 export const metadata = {
-  title: `Dashboard | ${process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor'}`,
+  title: `Dashboard | ${process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor'}`,
   description: 'Manage your wallet, cards, and transactions',
 }
 

@@ -136,7 +136,7 @@ export default function CreateVirtualCard() {
         <button onClick={handleClose} className={styles.closeBtn}>
           <span className="material-symbols-outlined">close</span>
         </button>
-        <div className={styles.taskLogo}>Aura</div>
+        <div className={styles.taskLogo}>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]}</div>
         <div className={styles.spacer}></div>
       </div>
 
@@ -146,7 +146,7 @@ export default function CreateVirtualCard() {
         <section className={styles.hero}>
           <h1 className={styles.title}>Get a Card</h1>
           <p className={styles.subtitle}>
-            Set up your Aura card for secure global luxury purchases.
+            Set up your {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} card for secure global luxury purchases.
           </p>
         </section>
 
@@ -309,7 +309,7 @@ export default function CreateVirtualCard() {
               
               <div className={styles.cardContent}>
                 <div className={styles.cardHeader}>
-                  <div className={styles.cardLogo}>Aura</div>
+                  <div className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]}</div>
                   <div className={styles.cardBadge}>Virtual</div>
                 </div>
 

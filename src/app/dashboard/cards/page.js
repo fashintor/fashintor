@@ -204,7 +204,7 @@ export default function VirtualCard() {
         <div>
           <h1 className={styles.pageTitle}>My Cards</h1>
           <p className={styles.pageSubtitle}>
-            View and manage your {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]} cards. Use Get a Card to issue a new one.
+            View and manage your {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} cards. Use Get a Card to issue a new one.
           </p>
         </div>
         {cardsFetched && (
@@ -231,7 +231,7 @@ export default function VirtualCard() {
             <div style={{ position: 'relative', zIndex: 1, padding: '2rem', textAlign: 'center' }}>
               <h2 style={{ margin: '0 0 0.75rem', fontSize: '1.25rem', fontWeight: 600 }}>No cards yet</h2>
               <p style={{ margin: '0 0 1.5rem', opacity: 0.88, lineHeight: 1.5 }}>
-                Get your first Aura card to start shopping. You can top up your wallet anytime from the dashboard.
+                Get your first {(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]} card to start shopping. You can top up your wallet anytime from the dashboard.
               </p>
               <Link
                 href={dashboardRoutes.getCard}
@@ -248,7 +248,7 @@ export default function VirtualCard() {
                 <div className={styles.cardInnerGlow}></div>
 
                   <div className={styles.cardHeader}>
-                    <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Aura').split(' ')[0]}</span>
+                    <span className={styles.cardLogo}>{(process.env.NEXT_PUBLIC_BRAND_NAME || 'Fashintor').split(' ')[0]}</span>
                   <div className={styles.cardStatus}>
                     <span className={`${styles.statusDot} ${cardDetails.isActive && !isFrozen ? styles.active : styles.inactive}`}></span>
                     <span className={styles.statusText}>
