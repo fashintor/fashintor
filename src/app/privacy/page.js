@@ -6,7 +6,7 @@ import styles from './page.module.scss'
 export default function PrivacyPolicy() {
   const [activeSection, setActiveSection] = useState('introduction')
   const [lastUpdated] = useState('OCT 2023')
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor'
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor'
   const companyShort = companyName.split(' ')[0]
 
   useEffect(() => {

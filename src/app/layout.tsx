@@ -15,7 +15,7 @@ const notoSerif = Noto_Serif({
   variable: '--font-noto-serif',
 })
 
-const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor'
+const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor'
 export const metadata = {
   title: `${companyName} | Private Wellness & Global Luxury Fintech`,
   description: 'Secure virtual cards for luxury shopping worldwide',

@@ -28,7 +28,7 @@ export default function DashboardShell({ children }) {
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <Link href={dashboardRoutes.wallet} className={styles.brand}>
-          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]}
+          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]}
         </Link>
         <p className={styles.brandHint}>Dashboard</p>
 

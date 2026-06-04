@@ -92,7 +92,7 @@ export default function Header() {
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
       <div className={styles.container}>
         <Link href={authResolved && isLoggedIn ? '/wallet' : '/'} className={styles.logo}>
-          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]}
+          {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]}
         </Link>
 
         <nav className={styles.desktopNav}>

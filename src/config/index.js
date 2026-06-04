@@ -6,7 +6,7 @@ export const config = {
   // Test Mode
   testMode: process.env.TEST_MODE === 'true',
   testUserBalance: parseFloat(process.env.TEST_USER_BALANCE) || 1000000,
-  testUserEmail: process.env.TEST_USER_EMAIL || 'test@walletor.ltd',
+  testUserEmail: process.env.TEST_USER_EMAIL || 'test@fashintor.com',
   testUserPassword: process.env.TEST_USER_PASSWORD || 'Test123456',
   
   // Currencies

@@ -10,7 +10,7 @@ export default function Pricing() {
     {
       icon: 'credit_card',
       title: 'Card Creation',
-      description: 'Your physical and virtual entry to Walletor.',
+      description: 'Your physical and virtual entry to Fashintor.',
       price: 'Free'
     },
     {

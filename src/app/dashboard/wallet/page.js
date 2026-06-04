@@ -102,7 +102,7 @@ export default function Wallet() {
     }, 300)
   }
 
-  const companyShort = (process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]
+  const companyShort = (process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]
 
   return (
     <div className={styles.container}>

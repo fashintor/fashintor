@@ -38,7 +38,7 @@ function assertResendRecipientAllowed(to) {
 
   if (to.toLowerCase().trim() !== allowed) {
     throw new Error(
-      `Test mode: verification emails can only be sent to ${allowed}. Register with this email, or verify your domain at https://resend.com/domains and use EMAIL_FROM=Walletor <info@fashintor.com>.`
+      `Test mode: verification emails can only be sent to ${allowed}. Register with this email, or verify your domain at https://resend.com/domains and use EMAIL_FROM=Fashintor <info@fashintor.com>.`
     );
   }
 }
@@ -53,11 +53,11 @@ function getEmailFrom() {
   const configured = process.env.EMAIL_FROM?.trim();
   if (configured) return configured;
   if (process.env.RESEND_API_KEY) {
-    return 'Walletor <onboarding@resend.dev>';
+    return 'Fashintor <onboarding@resend.dev>';
   }
   return process.env.NODE_ENV === 'production'
-    ? 'Walletor <info@fashintor.com>'
-    : 'Walletor <onboarding@resend.dev>';
+    ? 'Fashintor <info@fashintor.com>'
+    : 'Fashintor <onboarding@resend.dev>';
 }
 
 async function sendViaResend({ from, to, subject, html }) {
@@ -113,13 +113,13 @@ async function trySend({ from, to, subject, html }) {
 }
 
 function verificationHtml(verificationUrl, name) {
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor';
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor';
   const logoText = companyName.split(' ')[0];
   return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.button{background:#000;color:#fff;padding:16px 32px;border-radius:4px;text-decoration:none;display:inline-block;margin:24px 0}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">${logoText}</div><h2>Welcome, ${name}!</h2><p>Please verify your email address to complete your registration.</p><a href="${verificationUrl}" class="button">Verify Email</a><div class="footer"><p>This link expires in 24 hours.</p><p>© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p></div></div></body></html>`;
 }
 
 function resetHtml(resetUrl) {
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor';
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor';
   const logoText = companyName.split(' ')[0];
   return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.button{background:#000;color:#fff;padding:16px 32px;border-radius:4px;text-decoration:none;display:inline-block;margin:24px 0}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">${logoText}</div><h2>Reset Your Password</h2><p>Click the button below to reset your password.</p><a href="${resetUrl}" class="button">Reset Password</a><p>If you didn't request this, please ignore this email.</p><div class="footer"><p>This link expires in 1 hour.</p><p>© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p></div></div></body></html>`;
 }
@@ -127,7 +127,7 @@ function resetHtml(resetUrl) {
 export async function sendVerificationEmail(email, token, name) {
   const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
   const html = verificationHtml(verificationUrl, name);
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor';
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor';
   const from = getEmailFrom();
   return trySend({ from, to: email, subject: `Verify Your Email - ${companyName}`, html });
 }
@@ -135,7 +135,7 @@ export async function sendVerificationEmail(email, token, name) {
 export async function sendPasswordResetEmail(email, token) {
   const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/reset-password?token=${token}`;
   const html = resetHtml(resetUrl);
-  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor';
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor';
   const from = getEmailFrom();
   return trySend({ from, to: email, subject: `Reset Your Password - ${companyName}`, html });
 }

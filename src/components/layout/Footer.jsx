@@ -9,7 +9,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   const companyInfo = {
-    name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'WALLETOR LTD',
+    name: process.env.NEXT_PUBLIC_COMPANY_NAME || 'FASHINTOR',
     registration: process.env.NEXT_PUBLIC_COMPANY_NUMBER || '17207665',
     vat: process.env.NEXT_PUBLIC_COMPANY_VAT || '',
     address: process.env.NEXT_PUBLIC_COMPANY_ADDRESS || 'Dept 6792, 196 High Road, Wood Green, London, United Kingdom, N22 8HH',
@@ -51,7 +51,7 @@ export default function Footer() {
         <div className={styles.grid}>
           {/* Brand Column */}
           <div className={styles.brandColumn}>
-            <div className={styles.logo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]}</div>
+            <div className={styles.logo}>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]}</div>
             <p className={styles.tagline}>
               Global luxury financial ecosystem for discerning individuals.
             </p>

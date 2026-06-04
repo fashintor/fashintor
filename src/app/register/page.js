@@ -136,7 +136,7 @@ export default function Register() {
         <div className={styles.formWrapper}>
           <div className={styles.formHeader}>
             <h1 className={styles.title}>Create Account</h1>
-            <p className={styles.subtitle}>Join {process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor'} for secure global shopping</p>
+            <p className={styles.subtitle}>Join {process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor'} for secure global shopping</p>
           </div>
 
           {errors.submit && (

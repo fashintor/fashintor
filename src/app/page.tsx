@@ -265,7 +265,7 @@ export default function Home() {
         <div className={styles.parallaxOverlay}></div>
         <div className={styles.parallaxContent}>
           <h2>Shop globally without limits.</h2>
-          <p>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]} removes the digital borders of luxury commerce, allowing you to acquire what you desire, wherever it exists.</p>
+          <p>{(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]} removes the digital borders of luxury commerce, allowing you to acquire what you desire, wherever it exists.</p>
           <button onClick={handleExploreConcierge} className={styles.parallaxBtn}>Explore Concierge</button>
         </div>
       </section>
@@ -409,7 +409,7 @@ export default function Home() {
       {/* Final CTA */}
       <section className={styles.finalCta}>
         <div className={styles.ctaContainer}>
-          <h2>Ready for the {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Walletor').split(' ')[0]} experience?</h2>
+          <h2>Ready for the {(process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor').split(' ')[0]} experience?</h2>
           <p>Join a select community of global shoppers who demand precision, privacy, and performance in their financial tools.</p>
           <button onClick={handleRequestAccess} className={styles.ctaButton}>Request Access Now</button>
         </div>
