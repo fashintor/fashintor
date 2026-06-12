@@ -5,8 +5,10 @@ import { connectToDatabase } from '@/lib/db';
 import Wallet from '@/models/Wallet';
 import Card from '@/models/Card';
 import Transaction from '@/models/Transaction';
+import User from '@/models/User';
 import { verifyToken } from '@/lib/auth';
 import { config } from '@/config';
+import { trySendTopUpConfirmation } from '@/lib/email';
 
 export async function POST(request) {
   try {
@@ -60,6 +62,23 @@ export async function POST(request) {
 
     // Update wallet balance
     await wallet.addBalance(txn.currency, parsedAmount);
+
+    // Send confirmation email (non-blocking)
+    try {
+      const user = await User.findById(decoded.userId).select('email name').lean();
+      if (user?.email) {
+        await trySendTopUpConfirmation({
+          to: user.email,
+          name: user.name || user.email,
+          amount: parsedAmount,
+          currency: currency || 'EUR',
+          transactionId: txn._id.toString(),
+          newBalance: wallet.totalBalance,
+        });
+      }
+    } catch (emailErr) {
+      console.error('Top-up confirmation email failed (non-blocking):', emailErr);
+    }
 
     return NextResponse.json({ success: true, transaction: txn, wallet }, { status: 200 });
   } catch (err) {

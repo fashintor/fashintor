@@ -1,4 +1,9 @@
 import mongoose from 'mongoose';
+import dns from 'dns';
+
+// Force Google DNS to resolve MongoDB SRV records
+// (home routers often block SRV record lookups)
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 
 const MONGODB_URI = process.env.MONGODB_URI;
 

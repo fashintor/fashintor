@@ -18,7 +18,6 @@ export default function BuyBalance() {
   const [showBillingInfo, setShowBillingInfo] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const [errors, setErrors] = useState({})
-  const [fees, setFees] = useState(0)
   const [virtualCardGate, setVirtualCardGate] = useState({ loading: true, hasCard: true })
 
   const currencySymbols = {
@@ -32,12 +31,6 @@ export default function BuyBalance() {
     USD: 1.09,
     GBP: 0.85
   }
-
-  useEffect(() => {
-    // Calculate fees (1.5% for demo)
-    const amountNum = parseFloat(amount) || 0
-    setFees(amountNum * 0.015)
-  }, [amount])
 
   useEffect(() => {
     let cancelled = false
@@ -183,7 +176,7 @@ export default function BuyBalance() {
     }
   }
 
-  const totalAmount = (parseFloat(amount) || 0) + fees
+  const totalAmount = parseFloat(amount) || 0
 
   return (
     <div className={styles.container}>
@@ -382,10 +375,6 @@ export default function BuyBalance() {
                 <div className={styles.summaryRow}>
                   <span>Amount</span>
                   <span>{currencySymbols[currency]}{parseFloat(amount || 0).toFixed(2)}</span>
-                </div>
-                <div className={styles.summaryRow}>
-                  <span>Fees (1.5%)</span>
-                  <span>{currencySymbols[currency]}{fees.toFixed(2)}</span>
                 </div>
                 
                 <div className={styles.divider}></div>

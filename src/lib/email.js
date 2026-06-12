@@ -139,3 +139,18 @@ export async function sendPasswordResetEmail(email, token) {
   const from = getEmailFrom();
   return trySend({ from, to: email, subject: `Reset Your Password - ${companyName}`, html });
 }
+
+function topUpConfirmationHtml({ name, amount, currency, transactionId, newBalance }) {
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor';
+  const logoText = companyName.split(' ')[0];
+  const symbol = currency === 'USD' ? '$' : currency === 'GBP' ? '£' : '€';
+  const date = new Date().toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+  return `<!DOCTYPE html><html><head><style>body{font-family:Manrope,sans-serif;background:#fbf9f9;padding:40px}.container{max-width:600px;margin:0 auto;background:#fff;border-radius:12px;padding:48px}.logo{font-family:Noto Serif,serif;font-size:24px;margin-bottom:32px}.badge{display:inline-block;background:#000;color:#fff;border-radius:50%;width:56px;height:56px;line-height:56px;text-align:center;font-size:28px;margin-bottom:24px}.amount{font-size:36px;font-weight:700;margin:8px 0}.table{width:100%;border-collapse:collapse;margin:24px 0}.table td{padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px}.table td:last-child{text-align:right;font-weight:600}.footer{margin-top:48px;font-size:12px;color:#666}</style></head><body><div class="container"><div class="logo">${logoText}</div><div class="badge">✓</div><h2>Your wallet has been topped up</h2><p>Hi ${name},</p><p>We have successfully added funds to your ${companyName} wallet.</p><div class="amount">${symbol}${parseFloat(amount).toFixed(2)}</div><table class="table"><tr><td>Transaction ID</td><td>${transactionId}</td></tr><tr><td>Date</td><td>${date}</td></tr><tr><td>Currency</td><td>${currency}</td></tr><tr><td>New Balance</td><td>${symbol}${parseFloat(newBalance).toFixed(2)}</td></tr></table><div class="footer"><p>If you did not make this transaction, please contact support immediately.</p><p>© ${new Date().getFullYear()} ${companyName}. All rights reserved.</p></div></div></body></html>`;
+}
+
+export async function trySendTopUpConfirmation({ to, name, amount, currency, transactionId, newBalance }) {
+  const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'Fashintor';
+  const from = getEmailFrom();
+  const html = topUpConfirmationHtml({ name, amount, currency, transactionId, newBalance });
+  return trySend({ from, to, subject: `Wallet Top-Up Confirmed — ${companyName}`, html });
+}
