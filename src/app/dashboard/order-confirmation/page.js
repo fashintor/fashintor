@@ -1,7 +1,7 @@
 'use client'
 import { Suspense, useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import Image from 'next/image'
 import { dashboardRoutes } from '@/lib/routes'
 import styles from './page.module.scss'
 
@@ -20,7 +20,6 @@ function OrderConfirmationContent() {
   const [isDownloading, setIsDownloading] = useState(false)
 
   useEffect(() => {
-    // Get transaction data from URL params or localStorage
     const txId = searchParams.get('tx')
     const amount = searchParams.get('amount')
     const currency = searchParams.get('currency')
@@ -35,7 +34,6 @@ function OrderConfirmationContent() {
       }))
     }
     
-    // In real app, fetch transaction details from API
     const fetchTransactionDetails = async () => {
       try {
         if (txId) {
@@ -71,42 +69,124 @@ function OrderConfirmationContent() {
   const handleDownloadPDF = async () => {
     setIsDownloading(true)
     
-    // Simulate PDF generation
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      const { jsPDF } = await import('jspdf')
       
-      // In production, this would call an API to generate PDF
-      console.log('Downloading receipt...', transactionData)
-      
-      // Create a simple text receipt for demo
       const companyName = process.env.NEXT_PUBLIC_COMPANY_NAME || 'WALLETOR LTD'
-      const receipt = `
-        ${companyName.toUpperCase()} - TRANSACTION RECEIPT
-        =================================
-        Transaction ID: ${transactionData.transactionId}
-        Date: ${transactionData.date}
-        Time: ${transactionData.time}
-        Amount: €${transactionData.amount}
-        Payment Method: ${transactionData.paymentMethod}
-        Status: ${transactionData.status}
-        New Balance: €${transactionData.newBalance}
-        =================================
-        Thank you for using ${companyName}
-      `
+      const doc = new jsPDF({ unit: 'pt', format: 'a4' })
       
-      // Create blob and download
-      const blob = new Blob([receipt], { type: 'text/plain' })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `receipt_${transactionData.transactionId}.txt`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-      
+      const pageW = doc.internal.pageSize.getWidth()
+      const margin = 56
+      let y = 60
+
+      // Header bar
+      doc.setFillColor(254, 214, 91)
+      doc.rect(0, 0, pageW, 8, 'F')
+
+      // Company name
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(22)
+      doc.setTextColor(0, 0, 0)
+      doc.text(companyName.toUpperCase(), margin, y)
+      y += 28
+
+      // Subtitle
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(11)
+      doc.setTextColor(100, 100, 100)
+      doc.text('TRANSACTION RECEIPT', margin, y)
+      y += 36
+
+      // Divider
+      doc.setDrawColor(220, 220, 220)
+      doc.setLineWidth(0.5)
+      doc.line(margin, y, pageW - margin, y)
+      y += 28
+
+      // Status badge
+      doc.setFillColor(240, 255, 240)
+      doc.roundedRect(margin, y, pageW - margin * 2, 44, 6, 6, 'F')
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(13)
+      doc.setTextColor(22, 120, 22)
+      doc.text('✓  Payment Successful', margin + 16, y + 27)
+      y += 68
+
+      // New Balance section
+      doc.setFillColor(251, 249, 249)
+      doc.roundedRect(margin, y, pageW - margin * 2, 72, 6, 6, 'F')
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(9)
+      doc.setTextColor(120, 120, 120)
+      doc.text('NEW WALLET BALANCE', margin + 16, y + 22)
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(28)
+      doc.setTextColor(0, 0, 0)
+      doc.text(`€${transactionData.newBalance}`, margin + 16, y + 54)
+      y += 96
+
+      // Transaction details heading
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(9)
+      doc.setTextColor(120, 120, 120)
+      doc.text('TRANSACTION DETAILS', margin, y)
+      y += 10
+      doc.setDrawColor(220, 220, 220)
+      doc.line(margin, y, pageW - margin, y)
+      y += 18
+
+      // Detail rows
+      const rows = [
+        ['Transaction ID', transactionData.transactionId],
+        ['Date & Time', `${transactionData.date} - ${transactionData.time}`],
+        ['Payment Method', transactionData.paymentMethod],
+        ['Amount Added', `€${transactionData.amount}`],
+        ['Status', transactionData.status],
+      ]
+
+      rows.forEach(([label, value], i) => {
+        const rowY = y + i * 36
+        if (i % 2 === 0) {
+          doc.setFillColor(248, 248, 248)
+          doc.rect(margin, rowY - 12, pageW - margin * 2, 36, 'F')
+        }
+        doc.setFont('helvetica', 'normal')
+        doc.setFontSize(11)
+        doc.setTextColor(80, 80, 80)
+        doc.text(label, margin + 12, rowY + 12)
+        doc.setFont('helvetica', 'bold')
+        doc.setTextColor(0, 0, 0)
+        const valW = doc.getTextWidth(value)
+        doc.text(value, pageW - margin - 12 - valW, rowY + 12)
+      })
+
+      y += rows.length * 36 + 28
+
+      // Footer divider
+      doc.setDrawColor(220, 220, 220)
+      doc.line(margin, y, pageW - margin, y)
+      y += 20
+
+      // Footer text
+      doc.setFont('helvetica', 'normal')
+      doc.setFontSize(9)
+      doc.setTextColor(150, 150, 150)
+      doc.text(`Thank you for using ${companyName}`, margin, y)
+      doc.text(
+        `Generated: ${new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}`,
+        pageW - margin,
+        y,
+        { align: 'right' }
+      )
+
+      // Bottom bar
+      doc.setFillColor(254, 214, 91)
+      doc.rect(0, doc.internal.pageSize.getHeight() - 8, pageW, 8, 'F')
+
+      doc.save(`receipt_${transactionData.transactionId}.pdf`)
+
     } catch (error) {
-      console.error('Failed to download receipt:', error)
+      console.error('Failed to download PDF receipt:', error)
     } finally {
       setIsDownloading(false)
     }
@@ -122,20 +202,15 @@ function OrderConfirmationContent() {
 
   return (
     <div className={styles.container}>
-      {/* Decorative Background Elements */}
       <div className={styles.bgDecorations}>
         <div className={styles.bgBlur1}></div>
         <div className={styles.bgBlur2}></div>
       </div>
 
-      {/* Main Content */}
       <main className={styles.main}>
-        {/* Central Card Container */}
         <div className={styles.card}>
-          {/* Glassmorphic Inner Highlight */}
           <div className={styles.cardHighlight}></div>
 
-          {/* Hero Success Section */}
           <div className={styles.heroSection}>
             <div className={styles.successIcon}>
               <span className="material-symbols-outlined">check_circle</span>
@@ -144,13 +219,11 @@ function OrderConfirmationContent() {
             <p className={styles.subtitle}>Your balance has been updated</p>
           </div>
 
-          {/* Balance Update Section */}
           <div className={styles.balanceSection}>
             <p className={styles.balanceLabel}>NEW WALLET BALANCE</p>
             <p className={styles.balanceAmount}>€{transactionData.newBalance}</p>
           </div>
 
-          {/* Transaction Details */}
           <div className={styles.transactionSection}>
             <p className={styles.sectionTitle}>TRANSACTION DETAILS</p>
             <div className={styles.detailsList}>
@@ -187,7 +260,6 @@ function OrderConfirmationContent() {
             </div>
           </div>
 
-          {/* Receipt Action */}
           <div className={styles.receiptSection}>
             <div className={styles.receiptInfo}>
               <span className="material-symbols-outlined">mark_email_read</span>
@@ -203,7 +275,6 @@ function OrderConfirmationContent() {
             </button>
           </div>
 
-          {/* Next Actions */}
           <div className={styles.actionsSection}>
             <button 
               onClick={handleGoToWallet}
@@ -219,16 +290,33 @@ function OrderConfirmationContent() {
             </button>
           </div>
 
-          {/* Trust/Security Section */}
           <div className={styles.trustSection}>
             <div className={styles.securityNote}>
               <span className="material-symbols-outlined">lock</span>
               <p>ALL TRANSACTIONS ARE ENCRYPTED AND PROTECTED</p>
             </div>
             <div className={styles.paymentBadges}>
-              <span>VISA</span>
-              <span>MASTERCARD</span>
-              <span>PCI DSS</span>
+              <Image
+                src="/visa-logo.svg"
+                alt="Visa"
+                width={64}
+                height={40}
+                className={styles.badgeLogo}
+              />
+              <Image
+                src="/ma_symbol.svg"
+                alt="Mastercard"
+                width={52}
+                height={40}
+                className={styles.badgeLogo}
+              />
+              <Image
+                src="/pci-dss-compliant-logo-vector.svg"
+                alt="PCI DSS Compliant"
+                width={52}
+                height={40}
+                className={styles.badgeLogo}
+              />
             </div>
           </div>
         </div>
